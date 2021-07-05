@@ -1,7 +1,5 @@
 package com.demidao.models;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -17,16 +15,13 @@ public class User {
 
     @Column(name = "name")
     @NotEmpty(message = "NAME must not be empty")
-    @Size(min = 2, max = 30, message = "NAME must be between 2 and 30")
     private String name;
 
     @Column(name = "lastname")
     @NotEmpty(message = "SURNAME must not be empty")
-    @Size(min = 1, max = 30, message = "SURNAME must be between 2 and 30")
     private String lastname;
 
     @Column(name = "age")
-    @Min(value = 0, message = "AGE must ne greater than 0")
     private int age;
 
     @Column(name = "email")
@@ -35,7 +30,8 @@ public class User {
     private String email;
 
 
-    public User() {}
+    public User() {
+    }
 
     public User(String name, String surname, int age, String email) {
         this.name = name;

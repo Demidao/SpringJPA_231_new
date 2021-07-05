@@ -2,17 +2,37 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href='/static/css/style.css'/>
     <title>All users</title>
+
 </head>
 <body>
-<div th:each="user : ${userList}">
-    <a th:href="@{/users/{id}(id=${user.getId()})}"
-       th:text="${user.getName()} + ' ' + ${user.getLastname()} + ', ' + ${user.getAge()} + ', ' +  ${user.getEmail()}">user</a>
-</div>
+<div>
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Name</td>
+            <td>Lastname</td>
+            <td>Age</td>
+            <td>email</td>
+            <td>Info</td>
+        </tr>
+        </thead>
 
+        <div th:each="user : ${userList}">
+            <tr>
+                <td><p th:text="${user.getName()}">name</p></td>
+                <td><p th:text="${user.getLastname()}">lastname</p></td>
+                <td><p th:text="${user.getAge()}">age</p></td>
+                <td><p th:text="${user.getEmail()}">email</p></td>
+                <td><a class="button24" th:href="@{/users/{id}(id=${user.getId()})}">Show</a></td>
+            </tr>
+        </div>
+    </table>
+</div>
 <br/>
 <hr/>
 
-<a href="/users/new">Create new user</a>
+<a href="/users/new" class="button24">Create new user</a>
 </body>
 </html>

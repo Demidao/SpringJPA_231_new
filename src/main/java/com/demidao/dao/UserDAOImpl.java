@@ -1,6 +1,7 @@
 package com.demidao.dao;
 
 import com.demidao.models.User;
+import com.demidao.util.FishData;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,40 +17,41 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> index() {
-        return em.createQuery("select u from User u", User.class)
+        List<User> out = em.createQuery("from User u", User.class)
                 .getResultList();
-
+        if (out.isEmpty()) {
+            for (User user : FishData.getInitUserList()) {
+                save(user);
+            }
+            out = FishData.getInitUserList();
+        }
+        return out;
     }
 
     @Override
     public User show(long id) {
-//        em.getTransaction().begin();
-//        User out = em.find(User.class, id);
-//        em.getTransaction().commit();
-        return null;
+        return em.find(User.class, id);
     }
 
     @Override
     public void save(User user) {
-//        em.persist(user);
-//        em.flush();
+        em.persist(user);
+        em.flush();
     }
 
     @Override
-    public void update(long id, User newUser) {
-//        em.getTransaction().begin();
-//        User updatedUser = em.find(User.class, show(id));
-//        updatedUser.setName(newUser.getName());
-//        updatedUser.setLastname(newUser.getLastname());
-//        updatedUser.setAge(newUser.getAge());
-//        updatedUser.setEmail(newUser.getEmail());
-//        em.getTransaction().commit();
+    public void update(long id, User user) {
+        em.merge(user);
+        em.flush();
     }
 
     @Override
     public void delete(long id) {
-//        em.getTransaction().begin();
-//        em.remove(em.find(User.class, id));
-//        em.getTransaction().commit();
+        User user = show(id);
+        if (user == null) {
+            throw new NullPointerException("User with id=" + id + " not found");
+        }
+        em.remove(user);
+        em.flush();
     }
 }

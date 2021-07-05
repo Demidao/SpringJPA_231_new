@@ -2,16 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href='/static/css/style.css'/>
     <title>User</title>
 </head>
 <body>
-<p th:text="${user.getName()}">value</p>
-<p th:text="${user.getId()} + ', ' + ${user.getAge()}">value</p>
-<p th:text="${user.getEmail()}">value</p>
-
-
-<a th:href="@{/users/{id}/edit(id=${user.getId()})}">Edit</a>
-
+<table class="table">
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Lastname</td>
+        <td>Age</td>
+        <td>email</td>
+    </tr>
+    </thead>
+    <tr>
+        <td><p th:text="${user.getId()}">ID</td>
+        <td><p th:text="${user.getName()}">name</td>
+        <td><p th:text="${user.getLastname()}">lastname</td>
+        <td><p th:text="${user.getAge()}">Age</td>
+        <td><p th:text="${user.getEmail()}">email</td>
+    </tr>
+</table>
+</br>
+<a th:href="@{/users/{id}/edit(id=${user.getId()})}" class="button24">Edit</a>
+</br>
 <form th:method="DELETE" th:action="@{/users/{id}(id=${user.getId()})}">
     <input type="submit" value="Delete"/>
 </form>

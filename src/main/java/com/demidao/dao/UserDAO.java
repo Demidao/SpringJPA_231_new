@@ -6,14 +6,13 @@ import java.util.List;
 
 public interface UserDAO {
 
-    public List<User> index();
+    List<User> index();
 
-    public User show(long id);
+    User show(long id);
 
-    public void save(User user);
+    void save(User user);
 
-    public void update(long id, User newUser);
+    void update(long id, User newUser);
 
-    public void delete(long id);
-
+    void delete(long id);
 }
