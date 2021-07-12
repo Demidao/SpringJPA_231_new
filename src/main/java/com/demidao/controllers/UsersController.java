@@ -1,7 +1,7 @@
 package com.demidao.controllers;
 
-import com.demidao.dao.UserDAO;
 import com.demidao.models.User;
+import com.demidao.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,22 +12,22 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UsersController {
 
-    private final UserDAO userDAO;
+    private final UserService userService;
 
     @Autowired
-    public UsersController(UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public UsersController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("userList", userDAO.index());
+        model.addAttribute("userList", userService.index());
         return "users/index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") long id, Model model) {
-        model.addAttribute("user", userDAO.show(id));
+        model.addAttribute("user", userService.show(id));
         return "users/show";
     }
 
@@ -43,13 +43,13 @@ public class UsersController {
         if (bindingResult.hasErrors()) {
             return "users/new";
         }
-        userDAO.save(user);
+        userService.save(user);
         return "redirect:/users";
     }
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") long id) {
-        model.addAttribute("user", userDAO.show(id));
+        model.addAttribute("user", userService.show(id));
         return "users/edit";
     }
 
@@ -60,13 +60,13 @@ public class UsersController {
         if (bindingResult.hasErrors()) {
             return "users/edit";
         }
-        userDAO.update(id, user);
+        userService.update(id, user);
         return "redirect:/users";
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") long id) {
-        userDAO.delete(id);
+        userService.delete(id);
         return "redirect:/users";
     }
 }
